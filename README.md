@@ -245,13 +245,6 @@ pip install face_recognition[gpu]
 -  Advanced reporting
 -  Multi-language support
 
-## Contact
-
-- **Author**: Trần Duy Đức
-- **Email**: tranduyduc9679@gmail.com
-- **GitHub**: @BesBoo (https://github.com/BesBoo)
-- **Project Link**: [https://github.com/BesBoo/Face-Recognition-System](https://github.com/BesBoo/Face_Attendance_System)
-
 
 ##  Giấy Phép
 
@@ -263,7 +256,13 @@ Dự án này được phát hành dưới giấy phép MIT License. Xem file [L
 - [face_recognition](https://github.com/ageitgey/face_recognition) - Face recognition library
 - [PyQt5](https://www.riverbankcomputing.com/software/pyqt/) - GUI framework
 - [dlib](http://dlib.net/) - Machine learning toolkit
+  
+## Contact
 
+- **Author**: Trần Duy Đức
+- **Email**: tranduyduc9679@gmail.com
+- **GitHub**: @BesBoo (https://github.com/BesBoo)
+- **Project Link**: [https://github.com/BesBoo/Face-Recognition-System](https://github.com/BesBoo/Face_Attendance_System)
 ---
 
  **Nếu dự án này hữu ích, hãy cho tôi một ⭐** 
