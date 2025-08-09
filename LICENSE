@@ -1,0 +1,101 @@
+MIT License
+
+Copyright (c) 2025 Face Attendance System
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+THIRD-PARTY LIBRARIES
+
+This software uses the following third-party libraries:
+
+1. OpenCV (https://opencv.org/)
+   License: Apache License 2.0
+   Used for: Computer vision and image processing
+
+2. face_recognition (https://github.com/ageitgey/face_recognition)
+   License: MIT License
+   Used for: Face detection and recognition algorithms
+
+3. PyQt5 (https://www.riverbankcomputing.com/software/pyqt/)
+   License: GPL v3 / Commercial License
+   Used for: GUI framework and user interface
+
+4. dlib (http://dlib.net/)
+   License: Boost Software License
+   Used for: Machine learning algorithms and face landmarks
+
+5. NumPy (https://numpy.org/)
+   License: BSD License
+   Used for: Numerical computing and array operations
+
+6. Pickle (Python Standard Library)
+   License: Python Software Foundation License
+   Used for: Data serialization
+
+7. JSON (Python Standard Library)
+   License: Python Software Foundation License
+   Used for: Data storage and configuration
+
+DISCLAIMER:
+All third-party libraries are the property of their respective owners and are 
+used in accordance with their respective licenses. The authors of this software
+do not claim ownership of these libraries and acknowledge their respective
+copyrights and licenses.
+
+COMMERCIAL USE:
+This software is free for personal, educational, and commercial use under the 
+MIT License. However, please note that some third-party libraries may have 
+different license requirements for commercial use. It is the user's 
+responsibility to ensure compliance with all applicable licenses.
+
+PATENT RIGHTS:
+This software may use algorithms that could be subject to patent rights in 
+some jurisdictions. Users are responsible for ensuring they have the necessary
+rights to use this software in their jurisdiction.
+
+EXPORT RESTRICTIONS:
+This software may be subject to export control laws and regulations in some
+countries. Users are responsible for complying with all applicable export
+control laws and regulations.
+
+SUPPORT AND WARRANTY:
+This software is provided "as is" without any warranty or guarantee of support.
+While we strive to maintain and improve the software, users should not expect
+guaranteed support or updates.
+
+DATA PRIVACY:
+This software processes biometric data (facial features) for recognition 
+purposes. Users are responsible for:
+- Obtaining proper consent from individuals whose faces are processed
+- Complying with applicable data protection laws (GDPR, CCPA, etc.)
+- Implementing appropriate security measures for stored biometric data
+- Providing clear privacy notices to users
+
+ETHICAL USE:
+Users of this software are expected to use it ethically and legally:
+- Obtain proper consent before processing facial data
+- Do not use for discriminatory or harmful purposes  
+- Respect privacy rights and local laws
+- Implement appropriate data security measures
+- Consider the potential impact on individuals' privacy and rights
+
+For questions about licensing, please contact: [tranduyduc9679@gmail.com]
+
