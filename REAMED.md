@@ -1,364 +1,271 @@
-# Hệ thống Điểm danh bằng Khuôn mặt
+#  Hệ Thống Điểm Danh Bằng Nhận Dạng Khuôn Mặt
 
-## Mô tả
+[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.5+-green.svg)](https://opencv.org/)
+[![PyQt5](https://img.shields.io/badge/PyQt5-5.15+-orange.svg)](https://pypi.org/project/PyQt5/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Hệ thống điểm danh tự động sử dụng công nghệ nhận diện khuôn mặt được xây dựng bằng Python. Ứng dụng cho phép:
+Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khuôn mặt, được phát triển bằng Python với giao diện PyQt5.
 
-- ✅ **Nhận diện khuôn mặt tự động** qua webcam
-- 📊 **Quản lý lớp học và sinh viên** 
-- 📈 **Báo cáo điểm danh** chi tiết
-- 🎯 **Giao diện thân thiện** với PyQt5
-- 🗄️ **Lưu trữ dữ liệu** với SQL Server
+##  Tính Năng Chính
 
-## Yêu cầu hệ thống
+-  **Nhận dạng khuôn mặt tự động** với độ chính xác cao
+-  **Hỗ trợ nhiều camera** USB/Webcam
+-  **Quản lý người dùng** dễ dàng với giao diện trực quan
+-  **Thống kê điểm danh** real-time
+-  **Xuất báo cáo** CSV/Excel
+-  **Cài đặt linh hoạt** độ nhạy nhận dạng
+-  **Giao diện thân thiện** với người dùng
+-  **Lưu trữ dữ liệu** an toàn
 
-### Phần cứng
-- **CPU**: Intel i5 hoặc tương đương trở lên
-- **RAM**: Tối thiểu 4GB (khuyến nghị 8GB+)
-- **Webcam**: Camera tích hợp hoặc camera USB
-- **Ổ cứng**: Ít nhất 2GB dung lượng trống
+##  Giao Diện Ứng Dụng
 
-### Phần mềm
-- **Windows 10/11** (64-bit)
-- **Python 3.8+** 
-- **SQL Server** hoặc **SQL Server Express**
-- **Microsoft Visual C++ Redistributable**
+### Màn Hình Chính
+```
+<img width="1194" height="833" alt="Screenshot 2025-08-09 180707" src="https://github.com/user-attachments/assets/fc91aeff-c2ef-4804-b5f6-34423b911bfe" />
 
-## Cài đặt
-
-### Bước 1: Chuẩn bị môi trường
-
-1. **Cài đặt Python 3.8+**
-   ```bash
-   # Tải từ https://python.org và cài đặt
-   # Đảm bảo check "Add Python to PATH"
-   ```
-
-2. **Cài đặt SQL Server Express**
-   ```
-   # Tải từ Microsoft và cài đặt
-   # Server name: DUCCKY\SQLEXPRESS (hoặc tương tự)
-   # Authentication: Windows Authentication
-   ```
-
-3. **Tạo database**
-   ```sql
-   -- Mở SQL Server Management Studio
-   -- Tạo database mới tên "face_attendance"
-   CREATE DATABASE face_attendance;
-   ```
-
-### Bước 2: Clone project
-
-```bash
-git clone <repository-url>
-cd face_attendance_system
 ```
 
-### Bước 3: Cài đặt dependencies
+### Demo Quá Trình Điểm Danh
+
+1. **Khởi động camera và phát hiện khuôn mặt:**
+   ```
+    Camera ON →  Face Detection →  Recognition → Auto Attendance
+   ```
+
+2. **Kết quả nhận dạng:**
+   ```
+   <img width="1268" height="834" alt="Screenshot 2025-08-09 180918" src="https://github.com/user-attachments/assets/1a3b18be-0bbd-4f18-811c-a4ef550e6104" />
+
+   ```
+
+3. **Cập nhật danh sách tự động:**
+   ```
+   123654 - BesBoo - 18:08:53 - Có mặt
+   ```
+
+##  Thêm Người Dùng Mới
+
+### Giao Diện Thêm User
+```
+<img width="889" height="730" alt="Screenshot 2025-08-09 180821" src="https://github.com/user-attachments/assets/d7232300-79d6-41ea-a418-2a84e283afc3" />
+
+```
+
+### Quy Trình Thêm User
+1. **Nhập thông tin cơ bản:**
+   - Họ và tên đầy đủ
+   - Mã số sinh viên/nhân viên
+
+2. **Chụp ảnh training:**
+   - Bật camera preview
+   - Đảm bảo khuôn mặt được phát hiện (khung xanh)
+   - Chụp 3-5 ảnh từ các góc độ khác nhau
+   - Xem preview các ảnh đã chụp
+
+3. **Lưu dữ liệu:**
+   - Hệ thống tự động trích xuất face encodings
+   - Lưu vào database/JSON
+   - Reload model nhận dạng
+
+##  Cài Đặt và Chạy
+
+### 1. Yêu Cầu Hệ Thống
+- **Python:** 3.7 trở lên
+- **RAM:** Tối thiểu 4GB
+- **Camera:** USB Webcam hoặc camera tích hợp
+- **OS:** Windows 10/11, Ubuntu 18.04+, macOS 10.14+
+
+### 2. Cài Đặt Dependencies
 
 ```bash
-# Tạo virtual environment (khuyến nghị)
-python -m venv venv
-venv\Scripts\activate
+# Clone repository
+git clone https://github.com/your-username/face-attendance-system.git
+cd face-attendance-system
 
-# Cài đặt các thư viện
+# Tạo virtual environment
+python -m venv venv
+
+# Kích hoạt virtual environment
+# Windows:
+venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+
+# Cài đặt dependencies
 pip install -r requirements.txt
 ```
 
-### Bước 4: Thiết lập database
-
-1. **Chạy script tạo bảng**
-   ```bash
-   # Mở SQL Server Management Studio
-   # Mở file database/setup_db.sql
-   # Chạy script để tạo các bảng
-   ```
-
-2. **Kiểm tra kết nối**
-   ```python
-   # Chạy script test
-   python test_connection.py
-   ```
-
-### Bước 5: Cấu hình hệ thống
-
-1. **Chỉnh sửa config.py**
-   ```python
-   DATABASE_CONFIG = {
-       'server': r'YOUR_SERVER\SQLEXPRESS',  # Thay đổi server name
-       'database': 'face_attendance',
-       # ... other configs
-   }
-   ```
-
-2. **Tạo thư mục cần thiết**
-   ```bash
-   mkdir data data/images logs reports
-   ```
-
-## Chạy ứng dụng
-
-```bash
-# Kích hoạt virtual environment (nếu có)
-venv\Scripts\activate
-
-# Chạy ứng dụng chính
-python main.py
+### 3. Cấu Trúc Thư Mục
 ```
-
-## Cấu trúc thư mục
-
-```
-face_attendance/
-├── main.py                     # File khởi động chính
-├── config.py                   # Cấu hình hệ thống
-├── requirements.txt            # Danh sách thư viện
-├── README.md                   # Hướng dẫn này
+face-attendance-system/
+├── main.py                     # File chính khởi động app
+├── requirements.txt            # Dependencies
+├── README.md                  # Tài liệu này
+├── LICENSE                    # Giấy phép
 │
-├── gui/                        # Giao diện người dùng
-│   ├── main_window.py         # Cửa sổ chính
-│   └── attendance_gui.py      # Giao diện điểm danh
-│
-├── face_recognition/           # Module nhận diện
+├── face_recognition_modules/  # Modules nhận dạng khuôn mặt
+│   ├── __init__.py
 │   ├── face_detector.py       # Phát hiện khuôn mặt
 │   ├── face_encoder.py        # Mã hóa khuôn mặt
-│   └── recognizer.py          # Nhận diện
+│   └── recognizer.py          # Engine nhận dạng
 │
-├── database/                   # Quản lý database
-│   ├── db.py                  # Kết nối và truy vấn
-│   ├── models.py              # Models dữ liệu
-│   └── setup_db.sql           # Script tạo database
+├── gui/                       # Giao diện người dùng
+│   ├── __init__.py
+│   └── main_window.py         # Cửa sổ chính
 │
-├── reports/                    # Tạo báo cáo
-│   └── report_generator.py    # Generator báo cáo
+├── database/                  # Quản lý cơ sở dữ liệu
+│   ├── __init__.py
+│   └── db.py
 │
-├── utils/                      # Tiện ích
-│   ├── helpers.py             # Hàm hỗ trợ
-│   └── logger.py              # Hệ thống logging
+├── utils/                     # Tiện ích
+│   ├── __init__.py
+│   ├── logger.py
+│   └── helpers.py
 │
-├── data/                       # Dữ liệu
-│   ├── images/                # Ảnh khuôn mặt
-│   └── encodings.pkl          # Face encodings
-│
-├── logs/                       # File log
-├── reports/                    # Báo cáo xuất ra
-└── config/                     # File cấu hình
+└── data/                      # Dữ liệu ứng dụng
+    ├── images/               # Ảnh training users
+    │   ├── user_1/
+    │   ├── user_2/
+    │   └── ...
+    ├── users.json            # Thông tin users
+    ├── encodings.pkl         # Face encodings
+    └── logs/                 # Log files
 ```
 
-## Hướng dẫn sử dụng
+### 4. Chạy Ứng Dụng
 
-### 1. Khởi động ứng dụng
+```bash
+# Chạy ứng dụng chính
+python main.py
 
-1. Chạy `python main.py`
-2. Đợi splash screen tải xong
-3. Giao diện chính sẽ hiện ra
+# Hoặc chạy trực tiếp GUI
+python -m gui.main_window
+```
 
-### 2. Thêm người dùng mới
+## ⚙️ Cấu Hình
 
-1. **Menu** → **Quản lý** → **Quản lý người dùng**
-2. Nhấn **"Thêm người dùng"**
-3. Nhập thông tin: Tên, Mã SV, Vai trò
-4. **Chụp ảnh khuôn mặt**:
-   - Nhấn "Chụp từ camera"
-   - Nhìn thẳng vào camera
-   - Nhấn SPACE để chụp
-   - Nhấn ESC để hủy
-5. Lưu thông tin
-
-### 3. Tạo lớp học
-
-1. **Menu** → **Quản lý** → **Quản lý lớp học**
-2. Nhấn **"Tạo lớp mới"**
-3. Nhập: Tên lớp, Giảng viên
-4. Thêm sinh viên vào lớp
-
-### 4. Điểm danh
-
-1. **Chọn lớp học** từ dropdown
-2. **Bắt đầu camera**: Nhấn "Bắt đầu Camera"
-3. **Bắt đầu phiên điểm danh**: Toolbar → "Bắt đầu điểm danh"
-4. Sinh viên đứng trước camera → **Tự động điểm danh**
-5. Theo dõi danh sách điểm danh bên phải
-6. **Kết thúc**: Toolbar → "Kết thúc điểm danh"
-
-### 5. Xem báo cáo
-
-1. **Menu** → **Tệp** → **Xuất báo cáo**
-2. Chọn loại báo cáo:
-   - Báo cáo theo ngày
-   - Báo cáo theo tuần
-   - Báo cáo theo tháng
-   - Báo cáo sinh viên
-3. Chọn định dạng: Excel hoặc PDF
-4. Lưu file báo cáo
-
-## Tính năng chính
-
-### 🎯 Nhận diện khuôn mặt
-- **Thuật toán**: face_recognition + dlib
-- **Độ chính xác**: 95%+ trong điều kiện ánh sáng tốt
-- **Tốc độ**: Real-time (~30 FPS)
-- **Ngưỡng nhận diện**: Có thể điều chỉnh (0.1-1.0)
-
-### 📊 Quản lý dữ liệu
-- **Database**: SQL Server với thiết kế tối ưu
-- **Backup**: Tự động backup encodings
-- **Import/Export**: Hỗ trợ nhiều định dạng
-- **Validation**: Kiểm tra tính hợp lệ dữ liệu
-
-### 📈 Báo cáo chi tiết
-- **Excel**: Với formatting và charts
-- **PDF**: Layout chuyên nghiệp
-- **CSV**: Cho data analysis
-- **Thống kê**: Tỷ lệ điểm danh, top students, etc.
-
-### 🔧 Tùy chỉnh linh hoạt
-- **Cấu hình**: File config.py dễ chỉnh sửa
-- **Themes**: Hỗ trợ nhiều giao diện
-- **Languages**: Tiếng Việt/English
-- **Camera**: Hỗ trợ nhiều camera
-
-## Troubleshooting
-
-### Lỗi thường gặp
-
-1. **"Không thể kết nối database"**
-   ```
-   ✅ Kiểm tra SQL Server đang chạy
-   ✅ Kiểm tra tên server trong config.py
-   ✅ Kiểm tra quyền truy cập database
-   ```
-
-2. **"Camera không hoạt động"**
-   ```
-   ✅ Kiểm tra camera đã được kết nối
-   ✅ Tắt các ứng dụng khác đang dùng camera
-   ✅ Thử thay đổi camera index (0, 1, 2...)
-   ```
-
-3. **"Không nhận diện được khuôn mặt"**
-   ```
-   ✅ Kiểm tra ánh sáng đủ sáng
-   ✅ Khuôn mặt nhìn thẳng camera
-   ✅ Điều chỉnh ngưỡng tolerance
-   ✅ Thử train lại với ảnh chất lượng cao
-   ```
-
-4. **"Lỗi import face_recognition"**
-   ```
-   ✅ Cài đặt Visual C++ Redistributable
-   ✅ Cài cmake: pip install cmake
-   ✅ Cài dlib: pip install dlib
-   ✅ Cài face_recognition: pip install face_recognition
-   ```
-
-### Performance tuning
-
-1. **Tăng tốc độ nhận diện**:
-   ```python
-   # Trong config.py
-   PERFORMANCE_CONFIG = {
-       'process_every_nth_frame': 3,  # Xử lý mỗi frame thứ 3
-       'resize_factor': 0.25,         # Giảm kích thước frame
-   }
-   ```
-
-2. **Giảm sử dụng RAM**:
-   ```python
-   PERFORMANCE_CONFIG = {
-       'cache_encodings': False,      # Tắt cache
-       'face_recognition_workers': 1, # Giảm workers
-   }
-   ```
-
-### Backup và phục hồi
-
-1. **Backup encodings**:
-   ```bash
-   # Tự động backup trong thư mục data/
-   # Hoặc manual backup
-   python -c "from face_recognition.face_encoder import FaceEncoder; FaceEncoder().backup_encodings()"
-   ```
-
-2. **Backup database**:
-   ```sql
-   -- Trong SQL Server Management Studio
-   -- Right click database → Tasks → Back Up...
-   ```
-
-## API Documentation
-
-### Database API
-
+### Cài Đặt Camera
 ```python
-from database.db import db_manager
-
-# Thêm user
-db_manager.add_user("Nguyễn Văn A", "SV001", "Student")
-
-# Lấy attendance records
-records = db_manager.get_attendance_records(class_id=1, date_from="2024-01-01")
+# Trong file config hoặc giao diện
+CAMERA_SETTINGS = {
+    'default_camera': 0,        # ID camera mặc định
+    'resolution': (640, 480),   # Độ phân giải
+    'fps': 30,                  # Frames per second
+    'auto_exposure': True       # Tự động điều chỉnh exposure
+}
 ```
 
-### Face Recognition API
-
+### Cài Đặt Nhận Dạng
 ```python
-from face_recognition.recognizer import FaceRecognizer
-
-recognizer = FaceRecognizer()
-
-# Thêm khuôn mặt
-recognizer.add_known_face(user_id=1, name="John", student_id="SV001", image_path="face.jpg")
-
-# Nhận diện
-results = recognizer.recognize_faces(camera_frame)
+RECOGNITION_SETTINGS = {
+    'tolerance': 0.6,           # Độ nhạy nhận dạng (0.1-0.9)
+    'model': 'hog',            # Mô hình: 'hog' hoặc 'cnn'
+    'auto_attendance': True,    # Tự động điểm danh
+    'confidence_threshold': 0.5 # Ngưỡng tin cậy tối thiểu
+}
 ```
 
-### Report API
+##  Tính Năng Nâng Cao
 
+### 1. Xuất Báo Cáo
 ```python
-from reports.report_generator import report_generator
+# Xuất CSV
+df = export_attendance_csv(date_from, date_to, class_id)
 
-# Tạo báo cáo daily
-report_path = report_generator.generate_daily_attendance_report(
-    report_date="2024-01-15", 
-    class_id=1, 
-    format='excel'
-)
+# Xuất Excel với biểu đồ
+export_attendance_excel_with_charts(data, filename)
 ```
 
-## Đóng góp
+### 2. API Integration
+```python
+# REST API endpoints
+POST /api/users          # Thêm user mới
+GET  /api/attendance     # Lấy danh sách điểm danh  
+POST /api/recognition    # Nhận dạng từ ảnh upload
+```
 
-1. Fork project
-2. Tạo feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Tạo Pull Request
+### 3. Backup & Recovery
+```python
+# Backup dữ liệu
+backup_system_data(backup_path)
 
-## License
+# Restore từ backup
+restore_from_backup(backup_file)
+```
 
-Distributed under the MIT License. See `LICENSE` for more information.
+##  Troubleshooting
 
-## Liên hệ
+### Lỗi Camera
+```bash
+# Kiểm tra camera có sẵn
+python -c "import cv2; print([i for i in range(10) if cv2.VideoCapture(i).read()[0]])"
 
-- **Email**: your-email@example.com
-- **GitHub**: https://github.com/yourusername/face-attendance-system
-- **Issues**: https://github.com/yourusername/face-attendance-system/issues
+# Nếu không tìm thấy camera
+- Kiểm tra driver camera
+- Thử các port khác (0, 1, 2...)
+- Kiểm tra quyền truy cập camera
+```
 
-## Changelog
+### Lỗi Face Recognition
+```bash
+# Cài đặt lại face_recognition
+pip uninstall face_recognition
+pip install --no-cache-dir face_recognition
 
-### v1.0.0 (2024-01-01)
+# Nếu lỗi trên Windows
+pip install cmake
+pip install dlib
+pip install face_recognition
+```
+
+### Lỗi Memory
+```bash
+# Giảm độ phân giải camera
+CAMERA_RESOLUTION = (320, 240)
+
+# Tăng RAM hoặc sử dụng GPU
+pip install face_recognition[gpu]
+```
+
+
+##  Changelog
+
+### Version 1.0.0 (2024-01-15)
 - ✅ Phiên bản đầu tiên
-- ✅ Face recognition cơ bản
-- ✅ Database integration
-- ✅ GUI với PyQt5
-- ✅ Report generation
-- ✅ Logging system
+- ✅ Nhận dạng khuôn mặt cơ bản
+- ✅ Giao diện PyQt5
+- ✅ Quản lý users
+- ✅ Xuất CSV
 
-### Tính năng sắp tới
-- 🔄 Multi-camera support
-- 🔄 Cloud database option  
-- 🔄 Mobile app
-- 🔄 Advanced analytics
-- 🔄 Integration với LMS
+### Planned Features (v1.1.0)
+-  API REST endpoints
+-  Database SQL Server integration
+-  Mobile app companion
+-  Advanced reporting
+-  Multi-language support
+
+## Contact
+
+- **Author**: Trần Duy Đức
+- **Email**: tranduyduc9679@gmail.com
+- **GitHub**: @BesBoo (https://github.com/BesBoo)
+- **Project Link**: [https://github.com/BesBoo/Face-Recognition-System](https://github.com/BesBoo/Face_Attendance_System)
+
+
+##  Giấy Phép
+
+Dự án này được phát hành dưới giấy phép MIT License. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+
+##  Lời Cảm Ơn
+
+- [OpenCV](https://opencv.org/) - Computer Vision library
+- [face_recognition](https://github.com/ageitgey/face_recognition) - Face recognition library
+- [PyQt5](https://www.riverbankcomputing.com/software/pyqt/) - GUI framework
+- [dlib](http://dlib.net/) - Machine learning toolkit
+
+---
+
+ **Nếu dự án này hữu ích, hãy cho tôi một ⭐** 
+
+Made with ⭐ by [Your Name]
