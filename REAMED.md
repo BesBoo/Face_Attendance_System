@@ -21,10 +21,10 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
 ##  Giao Diện Ứng Dụng
 
 ### Màn Hình Chính
-```
+
 <img width="1194" height="833" alt="Screenshot 2025-08-09 180707" src="https://github.com/user-attachments/assets/fc91aeff-c2ef-4804-b5f6-34423b911bfe" />
 
-```
+
 
 ### Demo Quá Trình Điểm Danh
 
@@ -34,10 +34,10 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
    ```
 
 2. **Kết quả nhận dạng:**
-   ```
+
    <img width="1268" height="834" alt="Screenshot 2025-08-09 180918" src="https://github.com/user-attachments/assets/1a3b18be-0bbd-4f18-811c-a4ef550e6104" />
 
-   ```
+
 
 3. **Cập nhật danh sách tự động:**
    ```
@@ -47,10 +47,10 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
 ##  Thêm Người Dùng Mới
 
 ### Giao Diện Thêm User
-```
+
 <img width="889" height="730" alt="Screenshot 2025-08-09 180821" src="https://github.com/user-attachments/assets/d7232300-79d6-41ea-a418-2a84e283afc3" />
 
-```
+
 
 ### Quy Trình Thêm User
 1. **Nhập thông tin cơ bản:**
