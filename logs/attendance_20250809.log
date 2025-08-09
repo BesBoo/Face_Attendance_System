@@ -1,0 +1,89 @@
+2025-08-09 15:22:11,983 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 15:22:23,525 - system - INFO - [ERROR] Startup error: 'AttendanceMainWindow' object has no attribute 'init_ui'
+2025-08-09 15:23:38,800 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 15:23:49,280 - system - INFO - [ERROR] Startup error: 'AttendanceMainWindow' object has no attribute 'init_ui'
+2025-08-09 15:30:29,070 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 15:30:39,637 - system - INFO - [ERROR] Startup error: 'AttendanceMainWindow' object has no attribute 'init_ui'
+2025-08-09 17:38:46,845 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 17:38:59,455 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 17:38:59,496 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 17:38:59,496 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 17:38:59,510 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 17:39:13,652 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 17:39:14,480 - user - INFO - [AUTO_ATTENDANCE] duc (123) - 0.68
+2025-08-09 17:39:27,554 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 17:39:54,112 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 17:40:48,196 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 17:40:49,357 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 17:40:49,372 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 17:40:49,372 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 17:40:49,380 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 17:41:38,797 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 17:41:39,591 - user - INFO - [AUTO_ATTENDANCE] Tran Duy Duc (123789) - 0.82
+2025-08-09 17:41:46,065 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 17:42:20,548 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 17:44:23,041 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 17:44:26,034 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 17:44:26,045 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 17:44:26,045 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 17:44:26,050 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 17:44:39,015 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 17:44:39,813 - user - INFO - [AUTO_ATTENDANCE] Tran Duy Duc (123789) - 0.82
+2025-08-09 17:44:51,027 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 17:48:32,719 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 17:48:33,590 - user - INFO - [AUTO_ATTENDANCE] Truong Thi Ngoc Tram (123543532) - 0.63
+2025-08-09 17:48:42,931 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 17:48:45,412 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 17:49:55,579 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 17:49:59,552 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 17:49:59,557 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 17:49:59,557 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 17:49:59,566 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 17:50:13,980 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 17:50:14,807 - user - INFO - [AUTO_ATTENDANCE] Tran Duy Duc (123789) - 0.81
+2025-08-09 17:50:22,016 - user - INFO - [AUTO_ATTENDANCE] Truong Thi Ngoc Tram (123543532) - 0.63
+2025-08-09 17:50:37,196 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 17:51:27,108 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 17:51:54,669 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 17:51:58,687 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 17:51:58,692 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 17:51:58,695 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 17:51:58,702 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 17:52:07,771 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 17:52:08,582 - user - INFO - [AUTO_ATTENDANCE] Tran Duy Duc (123789) - 0.83
+2025-08-09 17:52:12,100 - user - INFO - [AUTO_ATTENDANCE] Truong Thi Ngoc Tram (123543532) - 0.64
+2025-08-09 17:52:36,308 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 17:52:36,308 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 18:00:31,946 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 18:00:35,932 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 18:00:35,942 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 18:00:35,942 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 18:00:35,949 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 18:00:55,153 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 18:00:55,963 - user - INFO - [AUTO_ATTENDANCE] Tran Duy Duc (123789) - 0.79
+2025-08-09 18:01:05,680 - user - INFO - [AUTO_ATTENDANCE] Truong Thi Ngoc Tram (123543532) - 0.64
+2025-08-09 18:01:18,863 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 18:02:02,275 - user - INFO - [EXPORT_CSV] D:/New folder/attendance_20250809_180154.csv
+2025-08-09 18:02:19,256 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 18:06:37,286 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 18:06:38,490 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 18:06:38,504 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 18:06:38,504 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 18:06:38,510 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 18:08:52,795 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 18:08:53,584 - user - INFO - [AUTO_ATTENDANCE] BesBoo (123654) - 0.77
+2025-08-09 18:09:27,014 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 18:09:36,493 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 18:09:40,646 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 18:09:45,868 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 18:09:50,889 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 18:10:12,276 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 19:08:50,020 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 19:08:53,872 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 19:08:53,880 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 19:08:53,880 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 19:08:53,887 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 19:09:11,220 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 19:09:12,034 - user - INFO - [AUTO_ATTENDANCE] BesBoo (123654) - 0.61
+2025-08-09 19:09:19,831 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 19:09:26,654 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
