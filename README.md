@@ -231,19 +231,14 @@ pip install face_recognition[gpu]
 
 ##  Changelog
 
-### Version 1.0.0 (2024-01-15)
+### Version 1.0.0 (2025-07-15)
 - ✅ Phiên bản đầu tiên
 - ✅ Nhận dạng khuôn mặt cơ bản
 - ✅ Giao diện PyQt5
 - ✅ Quản lý users
 - ✅ Xuất CSV
 
-### Planned Features (v1.1.0)
--  API REST endpoints
--  Database SQL Server integration
--  Mobile app companion
--  Advanced reporting
--  Multi-language support
+
 
 
 ##  Giấy Phép
