@@ -33,7 +33,7 @@ class ReportGenerator:
             Đường dẫn file báo cáo
         """
         try:
-            # Lấy dữ liệu điểm danh
+        
             attendance_data = db_manager.get_attendance_records(
                 class_id=class_id,
                 date_from=report_date,
@@ -44,10 +44,10 @@ class ReportGenerator:
                 log_system_event("REPORT", f"Không có dữ liệu điểm danh cho ngày {report_date}")
                 return None
             
-            # Tạo DataFrame
+
             df = pd.DataFrame(attendance_data)
             
-            # Tạo tên file
+    
             date_str = report_date.replace('-', '')
             class_suffix = f"_class{class_id}" if class_id else "_all"
             filename = f"daily_attendance_{date_str}{class_suffix}.{format.lower()}"
@@ -74,12 +74,11 @@ class ReportGenerator:
             Đường dẫn file báo cáo
         """
         try:
-            # Tính ngày kết thúc (7 ngày sau start_date)
             start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date_obj = start_date_obj + timedelta(days=6)
             end_date = end_date_obj.strftime("%Y-%m-%d")
             
-            # Lấy dữ liệu điểm danh
+          
             attendance_data = db_manager.get_attendance_records(
                 class_id=class_id,
                 date_from=start_date,
@@ -90,10 +89,10 @@ class ReportGenerator:
                 log_system_event("REPORT", f"Không có dữ liệu điểm danh cho tuần {start_date} - {end_date}")
                 return None
             
-            # Tạo DataFrame và pivot table
+           
             df = pd.DataFrame(attendance_data)
             
-            # Pivot table: rows = students, columns = dates, values = status
+           
             pivot_df = df.pivot_table(
                 index=['user_name', 'student_id'], 
                 columns='attendance_date', 
@@ -102,10 +101,10 @@ class ReportGenerator:
                 aggfunc='first'
             )
             
-            # Reset index để có thể export
+          
             pivot_df = pivot_df.reset_index()
             
-            # Tạo tên file
+            
             week_str = f"{start_date.replace('-', '')}_to_{end_date.replace('-', '')}"
             class_suffix = f"_class{class_id}" if class_id else "_all"
             filename = f"weekly_attendance_{week_str}{class_suffix}.{format.lower()}"
@@ -128,7 +127,6 @@ class ReportGenerator:
         Tạo báo cáo điểm danh theo tháng
         """
         try:
-            # Tính ngày đầu và cuối tháng
             start_date = f"{year}-{month:02d}-01"
             
             if month == 12:
@@ -139,7 +137,6 @@ class ReportGenerator:
             end_date_obj = datetime.strptime(next_month, "%Y-%m-%d").date() - timedelta(days=1)
             end_date = end_date_obj.strftime("%Y-%m-%d")
             
-            # Lấy dữ liệu
             attendance_data = db_manager.get_attendance_records(
                 class_id=class_id,
                 date_from=start_date,
@@ -152,10 +149,9 @@ class ReportGenerator:
             
             df = pd.DataFrame(attendance_data)
             
-            # Tạo summary statistics
             summary_stats = self._calculate_monthly_statistics(df)
             
-            # Tạo tên file
+        
             filename = f"monthly_attendance_{year}{month:02d}.{format.lower()}"
             filepath = os.path.join(self.output_directory, filename)
             
@@ -177,13 +173,13 @@ class ReportGenerator:
         Tạo báo cáo tổng hợp điểm danh của một sinh viên
         """
         try:
-            # Lấy thông tin sinh viên
+
             student_info = db_manager.get_user_by_id(student_id)
             if not student_info:
                 log_system_event("ERROR", f"Không tìm thấy sinh viên ID: {student_id}")
                 return None
             
-            # Lấy dữ liệu điểm danh
+
             attendance_data = db_manager.get_attendance_records(
                 user_id=student_id,
                 date_from=date_from,
@@ -196,7 +192,7 @@ class ReportGenerator:
             
             df = pd.DataFrame(attendance_data)
             
-            # Tạo tên file
+
             student_name = student_info['name'].replace(' ', '_')
             period_str = ""
             if date_from and date_to:
@@ -220,26 +216,24 @@ class ReportGenerator:
         Tạo báo cáo thống kê lớp học
         """
         try:
-            # Lấy thông tin lớp
+
             class_info = db_manager.get_class_by_id(class_id)
             if not class_info:
                 log_system_event("ERROR", f"Không tìm thấy lớp ID: {class_id}")
                 return None
-            
-            # Lấy dữ liệu điểm danh
+
             attendance_data = db_manager.get_attendance_records(
                 class_id=class_id,
                 date_from=date_from,
                 date_to=date_to
             )
             
-            # Lấy danh sách sinh viên trong lớp
+
             students_in_class = db_manager.get_students_in_class(class_id)
-            
-            # Tính toán thống kê
+
             stats = self._calculate_class_statistics(attendance_data, students_in_class, date_from, date_to)
             
-            # Tạo tên file
+
             class_name = class_info['class_name'].replace(' ', '_')
             period_str = ""
             if date_from and date_to:
@@ -261,14 +255,14 @@ class ReportGenerator:
         """Tạo báo cáo Excel cơ bản"""
         try:
             with pd.ExcelWriter(filepath, engine='xlsxwriter') as writer:
-                # Write data
+               
                 df.to_excel(writer, sheet_name='Attendance Data', index=False)
                 
-                # Get workbook and worksheet
+               
                 workbook = writer.book
                 worksheet = writer.sheets['Attendance Data']
                 
-                # Format header
+                
                 header_format = workbook.add_format({
                     'bold': True,
                     'text_wrap': True,
@@ -277,16 +271,16 @@ class ReportGenerator:
                     'border': 1
                 })
                 
-                # Write header
+              
                 for col_num, value in enumerate(df.columns.values):
                     worksheet.write(0, col_num, value, header_format)
                 
-                # Auto-adjust columns width
+              
                 for i, col in enumerate(df.columns):
                     column_len = max(df[col].astype(str).str.len().max(), len(col)) + 2
                     worksheet.set_column(i, i, column_len)
                 
-                # Add title
+                
                 title_format = workbook.add_format({'bold': True, 'font_size': 16})
                 worksheet.insert_row(0)
                 worksheet.write(0, 0, title, title_format)
@@ -302,13 +296,13 @@ class ReportGenerator:
         """Tạo báo cáo Excel với pivot table"""
         try:
             with pd.ExcelWriter(filepath, engine='xlsxwriter') as writer:
-                # Write pivot data
+                
                 pivot_df.to_excel(writer, sheet_name='Pivot Table', index=False)
                 
                 workbook = writer.book
                 worksheet = writer.sheets['Pivot Table']
                 
-                # Format headers
+                
                 header_format = workbook.add_format({
                     'bold': True,
                     'text_wrap': True,
@@ -317,29 +311,28 @@ class ReportGenerator:
                     'border': 1
                 })
                 
-                # Format Present/Absent cells
-                present_format = workbook.add_format({'fg_color': '#C6EFCE'})  # Light green
-                absent_format = workbook.add_format({'fg_color': '#FFC7CE'})   # Light red
+              
+                present_format = workbook.add_format({'fg_color': '#C6EFCE'})  
+                absent_format = workbook.add_format({'fg_color': '#FFC7CE'})   
                 
-                # Apply formatting
+            
                 for col_num, value in enumerate(pivot_df.columns.values):
                     worksheet.write(0, col_num, value, header_format)
                 
-                # Color code attendance status
+                
                 for row in range(1, len(pivot_df) + 1):
-                    for col in range(2, len(pivot_df.columns)):  # Start from attendance columns
+                    for col in range(2, len(pivot_df.columns)):  
                         cell_value = worksheet.read(row, col)
                         if cell_value == 'Present':
                             worksheet.write(row, col, cell_value, present_format)
                         elif cell_value == 'Absent':
                             worksheet.write(row, col, cell_value, absent_format)
                 
-                # Auto-adjust column width
+
                 for i, col in enumerate(pivot_df.columns):
                     column_len = max(pivot_df[col].astype(str).str.len().max(), len(col)) + 2
                     worksheet.set_column(i, i, column_len)
-                
-                # Add title
+  
                 title_format = workbook.add_format({'bold': True, 'font_size': 16})
                 worksheet.insert_row(0)
                 worksheet.write(0, 0, title, title_format)
@@ -364,7 +357,7 @@ class ReportGenerator:
                 parent=styles['Heading1'],
                 fontSize=16,
                 spaceAfter=30,
-                alignment=1  # Center
+                alignment=1  
             )
             
             # Add title

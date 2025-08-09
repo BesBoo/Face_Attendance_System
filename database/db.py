@@ -38,13 +38,10 @@ class DatabaseManager:
             else:
                 cursor.execute(query)
             
-            # Lấy tên cột
             columns = [column[0] for column in cursor.description] if cursor.description else []
             
-            # Lấy dữ liệu
             rows = cursor.fetchall()
             
-            # Chuyển đổi thành dictionary
             result = []
             for row in rows:
                 result.append(dict(zip(columns, row)))
@@ -91,7 +88,6 @@ class DatabaseManager:
             logging.error(f"Lỗi lấy last insert ID: {e}")
             return None
     
-    # User management
     def add_user(self, name: str, student_id: str, role: str, image_path: str = None) -> bool:
         """Thêm người dùng mới"""
         query = """
@@ -147,7 +143,6 @@ class DatabaseManager:
         query = f"UPDATE users SET {', '.join(updates)} WHERE id = ?"
         return self.execute_non_query(query, tuple(params))
     
-    # Class management
     def add_class(self, class_name: str, instructor_name: str, instructor_id: int) -> bool:
         """Thêm lớp học mới"""
         query = """
@@ -173,7 +168,6 @@ class DatabaseManager:
         result = self.execute_query(query, (class_id,))
         return result[0] if result else None
     
-    # Enrollment management
     def enroll_student(self, class_id: int, student_id: int) -> bool:
         """Đăng ký sinh viên vào lớp"""
         query = """
@@ -204,7 +198,6 @@ class DatabaseManager:
         """
         return self.execute_query(query, (student_id,)) or []
     
-    # Attendance management
     def add_attendance(self, user_id: int, class_id: int, attendance_date: str, 
                       attendance_time: str, status: str = 'Present') -> bool:
         """Thêm điểm danh"""
@@ -256,5 +249,4 @@ class DatabaseManager:
         result = self.execute_query(query, (user_id, class_id, date))
         return result[0]['count'] > 0 if result else False
 
-# Singleton instance
 db_manager = DatabaseManager()

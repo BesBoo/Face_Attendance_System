@@ -12,7 +12,7 @@ import json
 import sqlite3
 import traceback
 
-# Add parent directory to path để import modules
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
@@ -21,15 +21,15 @@ except ImportError:
     db_manager = None
     print("Warning: db_manager not found")
 
-# FIXED: Import MediaPipe-based face recognizer instead of face_recognition
+
 try:
-    # Try to import the MediaPipe-based recognizer first
+
     from face_recognition_modules.mediapipe_recognizer import MediaPipeFaceRecognition
     FACE_RECOGNIZER_TYPE = "MediaPipe"
     print("Successfully ! Using MediaPipe-based face recognition")
 except ImportError:
     try:
-        # Fallback to original recognizer
+
         from face_recognition_modules.recognizer import FaceRecognizer
         FACE_RECOGNIZER_TYPE = "Original"
         print("Warning !  Using original face_recognition (may have image type issues)")
@@ -58,17 +58,16 @@ except ImportError:
     def get_available_cameras():
         """Tìm các camera có sẵn một cách an toàn"""
         available = []
-        
-        # Kiểm tra tối đa 10 camera index
+
         for i in range(10):
             cap = None
             try:
-                # Tạo VideoCapture với timeout
+
                 cap = cv2.VideoCapture(i)
                 
-                # Kiểm tra xem camera có thể mở được không
+               
                 if cap.isOpened():
-                    # Thử đọc 1 frame để đảm bảo camera hoạt động
+                   
                     ret, frame = cap.read()
                     if ret and frame is not None:
                         available.append(i)
@@ -100,7 +99,6 @@ except ImportError:
         print(f"Available cameras: {available}")
         return available if available else [0]
 
-# FIXED: Enhanced Image Processing Functions
 def ensure_valid_image_format(image):
     """
     Đảm bảo hình ảnh có định dạng hợp lệ cho face recognition
@@ -109,11 +107,11 @@ def ensure_valid_image_format(image):
     if image is None:
         raise ValueError("Image is None")
     
-    # Kiểm tra số chiều
+
     if len(image.shape) not in [2, 3]:
         raise ValueError(f"Invalid image dimensions: {image.shape}")
     
-    # Convert to uint8 if necessary
+ 
     if image.dtype != np.uint8:
         print(f"Converting image from {image.dtype} to uint8")
         if image.dtype == np.float32 or image.dtype == np.float64:
@@ -123,24 +121,21 @@ def ensure_valid_image_format(image):
                 image = image.astype(np.uint8)
         else:
             image = image.astype(np.uint8)
-    
-    # Handle different color formats
+
     if len(image.shape) == 2:
-        # Grayscale - convert to RGB
         image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
     elif len(image.shape) == 3:
         channels = image.shape[2]
         if channels == 1:
-            # Single channel to RGB
             image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
         elif channels == 4:
-            # RGBA to RGB
+          
             image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
         elif channels == 3:
-            # Assume BGR, convert to RGB
+         
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     
-    # Ensure contiguous array
+   
     image = np.ascontiguousarray(image)
     
     print(f"Successfully ! Image format validated: shape={image.shape}, dtype={image.dtype}")
@@ -151,16 +146,14 @@ def safe_face_locations(image):
     Safely detect face locations with proper image format handling
     """
     try:
-        # Validate and fix image format
+        
         processed_image = ensure_valid_image_format(image)
         
-        # Use appropriate face detection method
         if FACE_RECOGNIZER_TYPE == "MediaPipe":
-            # Use MediaPipe-based detection
+            
             mp_recognizer = MediaPipeFaceRecognition()
             locations = mp_recognizer.face_locations(processed_image)
         else:
-            # Use original face_recognition with fixed image
             import face_recognition
             locations = face_recognition.face_locations(processed_image)
         
@@ -175,16 +168,16 @@ def safe_face_encodings(image, face_locations=None):
     Safely generate face encodings with proper image format handling
     """
     try:
-        # Validate and fix image format
+     
         processed_image = ensure_valid_image_format(image)
         
-        # Use appropriate face encoding method
+
         if FACE_RECOGNIZER_TYPE == "MediaPipe":
-            # Use MediaPipe-based encoding
+   
             mp_recognizer = MediaPipeFaceRecognition()
             encodings = mp_recognizer.face_encodings(processed_image, face_locations)
         else:
-            # Use original face_recognition with fixed image
+            
             import face_recognition
             encodings = face_recognition.face_encodings(processed_image, face_locations)
         
@@ -194,7 +187,7 @@ def safe_face_encodings(image, face_locations=None):
         print(f"❌ Face encoding error: {e}")
         return []
 
-# FIXED: Enhanced Face Recognition Wrapper
+
 class SafeFaceRecognizer:
     """
     Enhanced face recognizer wrapper that handles image format issues
@@ -225,7 +218,7 @@ class SafeFaceRecognizer:
                 user_name = user['name']
                 student_id = user.get('student_id', '')
                 
-                # Load face images for this user
+
                 user_images_dir = f"data/images/user_{user_id}"
                 if os.path.exists(user_images_dir):
                     encodings = []
@@ -233,14 +226,14 @@ class SafeFaceRecognizer:
                         if img_file.lower().endswith(('.jpg', '.jpeg', '.png')):
                             img_path = os.path.join(user_images_dir, img_file)
                             try:
-                                # FIXED: Load image safely
+                             
                                 if self.recognizer_type == "MediaPipe":
                                     image = self.mp_recognizer.load_image_file(img_path)
                                 else:
                                     image = cv2.imread(img_path)
                                     image = ensure_valid_image_format(image)
                                 
-                                # Generate encoding
+                              
                                 face_encodings = safe_face_encodings(image)
                                 if face_encodings:
                                     encodings.extend(face_encodings)
@@ -269,30 +262,29 @@ class SafeFaceRecognizer:
         results = []
         
         try:
-            # FIXED: Ensure frame is in correct format
+          
             if frame is None:
                 return results
             
-            # Validate frame format
+          
             processed_frame = ensure_valid_image_format(frame)
-            
-            # Detect face locations
+          
             face_locations = safe_face_locations(processed_frame)
             
             if not face_locations:
                 return results
             
-            # Generate encodings for detected faces
+            
             face_encodings = safe_face_encodings(processed_frame, face_locations)
             
-            # Compare with known faces
+          
             for i, (face_encoding, location) in enumerate(zip(face_encodings, face_locations)):
                 best_match = None
                 best_distance = float('inf')
                 
                 for user_id, user_data in self.known_faces.items():
                     for known_encoding in user_data['encodings']:
-                        # Calculate distance
+                        
                         if self.recognizer_type == "MediaPipe":
                             distance = 1 - np.dot(known_encoding, face_encoding)
                         else:
@@ -303,7 +295,6 @@ class SafeFaceRecognizer:
                             best_distance = distance
                             best_match = user_data
                 
-                # Determine if match is good enough
                 if best_match and best_distance < self.tolerance:
                     results.append({
                         'user_id': user_id,
@@ -333,7 +324,6 @@ class SafeFaceRecognizer:
         """Set recognition tolerance"""
         self.tolerance = tolerance
 
-# Dialog Classes
 class UserManagementDialog(QDialog):
     """Dialog for managing users"""
     
@@ -526,7 +516,7 @@ class AddUserDialog(QDialog):
                 return
             
             self.camera_running = True
-            self.camera_timer.start(30)  # 30ms = ~33 FPS
+            self.camera_timer.start(30)  
             
             self.start_camera_btn.setEnabled(False)
             self.stop_camera_btn.setEnabled(True)
@@ -559,13 +549,13 @@ class AddUserDialog(QDialog):
         try:
             ret, frame = self.camera_capture.read()
             if ret:
-                # Convert to RGB and display
+                
                 rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgb_image.shape
                 bytes_per_line = ch * w
                 qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
                 
-                # Scale to label size
+                
                 pixmap = QPixmap.fromImage(qt_image)
                 scaled_pixmap = pixmap.scaled(self.camera_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.camera_label.setPixmap(scaled_pixmap)
@@ -581,27 +571,25 @@ class AddUserDialog(QDialog):
         ret, frame = self.camera_capture.read()
         if ret:
             try:
-                # FIXED: Ensure frame is in correct format before saving
+               
                 processed_frame = ensure_valid_image_format(frame)
-                
-                # Save image
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
                 filename = f"face_{timestamp}.jpg"
                 
-                # Create thumbnail for display  
+                  
                 thumbnail = cv2.resize(frame, (80, 60))
                 rgb_thumbnail = cv2.cvtColor(thumbnail, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgb_thumbnail.shape
                 qt_image = QImage(rgb_thumbnail.data, w, h, ch * w, QImage.Format_RGB888)
                 
-                # Store the properly formatted frame
+               
                 self.captured_images.append({
                     'filename': filename,
-                    'data': processed_frame,  # FIXED: Use processed frame
+                    'data': processed_frame,  
                     'thumbnail': QPixmap.fromImage(qt_image)
                 })
                 
-                # Display thumbnail
+               
                 thumb_label = QLabel()
                 thumb_label.setPixmap(QPixmap.fromImage(qt_image))
                 thumb_label.setToolTip(f"Ảnh {len(self.captured_images)}")
@@ -627,31 +615,28 @@ class AddUserDialog(QDialog):
                 QMessageBox.warning(self, "Cảnh báo", "Vui lòng chụp ít nhất 1 ảnh!")
                 return
             
-            # Create data directories
             os.makedirs("data", exist_ok=True)
             os.makedirs("data/images", exist_ok=True)
             
-            # Load existing users
+           
             users_file = "data/users.json"
             users = []
             if os.path.exists(users_file):
                 with open(users_file, 'r', encoding='utf-8') as f:
                     users = json.load(f)
             
-            # Generate new user ID
-            user_id = max([user['id'] for user in users], default=0) + 1
             
-            # Save user images
+            user_id = max([user['id'] for user in users], default=0) + 1
+           
             user_images_dir = f"data/images/user_{user_id}"
             os.makedirs(user_images_dir, exist_ok=True)
             
             for i, img_data in enumerate(self.captured_images):
                 img_path = os.path.join(user_images_dir, img_data['filename'])
-                # Save as BGR for OpenCV compatibility
+                
                 bgr_image = cv2.cvtColor(img_data['data'], cv2.COLOR_RGB2BGR)
                 cv2.imwrite(img_path, bgr_image)
             
-            # Add user to list
             new_user = {
                 'id': user_id,
                 'name': name,
@@ -662,7 +647,7 @@ class AddUserDialog(QDialog):
             
             users.append(new_user)
             
-            # Save users file
+           
             with open(users_file, 'w', encoding='utf-8') as f:
                 json.dump(users, f, ensure_ascii=False, indent=2)
             
@@ -678,19 +663,19 @@ class AddUserDialog(QDialog):
         self.stop_camera()
         event.accept()
 
-# Main Window Class
+
 class AttendanceMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         
-        # Initialize basic variables first
+     
         self.current_user = None
         self.current_class = None
         self.camera_running = False
         self.camera_timer = QTimer()
         self.camera_capture = None
         
-        # FIXED: Initialize enhanced face recognizer
+        
         try:
             self.face_recognizer = SafeFaceRecognizer()
             self.face_recognizer.load_known_faces()
@@ -699,7 +684,7 @@ class AttendanceMainWindow(QMainWindow):
             print(f"❌ Could not initialize face recognizer: {e}")
             self.face_recognizer = None
         
-        # Setup UI and other components
+     
         try:
             self.init_ui()
             self.setup_menu()
@@ -707,7 +692,7 @@ class AttendanceMainWindow(QMainWindow):
             self.setup_status_bar()
             self.connect_database()
             
-            # Setup timers
+          
             self.camera_timer.timeout.connect(self.update_camera_frame)
             
             self.time_timer = QTimer()
@@ -733,7 +718,7 @@ class AttendanceMainWindow(QMainWindow):
         # Main layout
         main_layout = QHBoxLayout()
         
-        # Left panel - Camera and controls
+        # Left panel 
         left_panel = QVBoxLayout()
         
         # Camera group
@@ -969,7 +954,7 @@ class AttendanceMainWindow(QMainWindow):
         """Connect to database"""
         try:
             if db_manager:
-                # Test database connection
+               
                 log_system_event("DATABASE", "Kết nối cơ sở dữ liệu thành công")
             else:
                 log_system_event("DATABASE", "Không có kết nối cơ sở dữ liệu - sử dụng file JSON")
@@ -999,7 +984,7 @@ class AttendanceMainWindow(QMainWindow):
             if self.camera_running:
                 return
             
-            # Get selected camera
+           
             camera_id = self.camera_combo.currentData()
             if camera_id is None:
                 camera_id = 0
@@ -1010,13 +995,13 @@ class AttendanceMainWindow(QMainWindow):
                 QMessageBox.critical(self, "Lỗi", f"Không thể mở camera {camera_id}!")
                 return
             
-            # Set camera properties
+            
             self.camera_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             self.camera_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
             self.camera_capture.set(cv2.CAP_PROP_FPS, 30)
             
             self.camera_running = True
-            self.camera_timer.start(33)  # ~30 FPS
+            self.camera_timer.start(33)  
             
             self.start_camera_btn.setEnabled(False)
             self.stop_camera_btn.setEnabled(True)
@@ -1075,61 +1060,59 @@ class AttendanceMainWindow(QMainWindow):
             
             print(f"[DEBUG] Camera frame: shape={frame.shape}, dtype={frame.dtype}")
             
-            # Validate frame size
+            
             if frame.shape[0] < 150 or frame.shape[1] < 150:
                 print(f"❌ Frame too small: {frame.shape}")
                 self.stop_camera()
                 QMessageBox.critical(self, "Lỗi", f"Camera cung cấp độ phân giải quá thấp ({frame.shape}).")
                 return
             
-            # Create display copy
+         
             display_frame = frame.copy()
             
-            # FIXED: Face recognition with proper error handling
+           
             if self.face_recognizer:
                 try:
-                    # Use the safe face recognizer
+                    
                     recognition_results = self.face_recognizer.recognize_faces(frame)
                     
-                    # Draw results on display_frame (BGR format)
+                    
                     for result in recognition_results:
                         location = result.get('location', [])
                         name = result.get('name', 'Unknown')
                         confidence = result.get('confidence', 0.0)
                         
                         if len(location) == 4:
-                            # Color selection
+                           
                             color = (0, 255, 0) if name != 'Unknown' else (0, 0, 255)
                             
-                            # Draw bounding box
+                            
                             top, right, bottom, left = location
                             cv2.rectangle(display_frame, (left, top), (right, bottom), color, 2)
                             
-                            # Draw label
+                            
                             text = f"{name} ({confidence:.2f})" if name != 'Unknown' else "Unknown"
                             cv2.rectangle(display_frame, (left, bottom - 35), (right, bottom), color, cv2.FILLED)
                             cv2.putText(display_frame, text, (left + 6, bottom - 6), 
                                     cv2.FONT_HERSHEY_DUPLEX, 0.6, (255, 255, 255), 1)
-                    
-                    # Process attendance
+                   
                     self.process_attendance(recognition_results)
                     
                 except Exception as e:
                     print(f"❌ Face recognition error: {e}")
-                    # Fallback to simple detection
                     self._use_simple_face_detection(display_frame)
             else:
-                # No face recognizer, use simple detection
+                
                 self._use_simple_face_detection(display_frame)
             
-            # FIXED: Convert and display with error handling
+            
             try:
                 rgb_image = cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgb_image.shape
                 bytes_per_line = ch * w
                 qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
                 
-                # Scale and display
+                
                 pixmap = QPixmap.fromImage(qt_image)
                 scaled_pixmap = pixmap.scaled(self.camera_label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.camera_label.setPixmap(scaled_pixmap)
@@ -1177,7 +1160,7 @@ class AttendanceMainWindow(QMainWindow):
                 confidence = result.get('confidence', 0.0)
                 
                 if user_id and name != 'Unknown' and confidence > 0.5:
-                    # Check if already marked present today
+                   
                     if not self.is_already_present(student_id):
                         self.add_attendance_record(student_id, name, current_time, confidence)
                         log_user_action("AUTO_ATTENDANCE", f"{name} ({student_id}) - {confidence:.2f}")
@@ -1208,10 +1191,9 @@ class AttendanceMainWindow(QMainWindow):
             self.attendance_table.setItem(row, 3, QTableWidgetItem("Có mặt"))
             self.attendance_table.setItem(row, 4, QTableWidgetItem(f"{confidence:.2f}"))
             
-            # Scroll to bottom
+           
             self.attendance_table.scrollToBottom()
-            
-            # Update statistics
+
             self.update_statistics()
             
         except Exception as e:
@@ -1221,8 +1203,8 @@ class AttendanceMainWindow(QMainWindow):
         """Update attendance statistics"""
         try:
             total = self.attendance_table.rowCount()
-            present = total  # All records in table are present
-            absent = 0  # Would need class roster to calculate
+            present = total  
+            absent = 0  
             
             self.total_students_label.setText(f"Tổng: {total}")
             self.present_students_label.setText(f"Có mặt: {present}")
@@ -1230,8 +1212,7 @@ class AttendanceMainWindow(QMainWindow):
             
         except Exception as e:
             print(f"Error updating statistics: {e}")
-    
-    # Menu action methods
+  
     def new_session(self):
         """Start new attendance session"""
         reply = QMessageBox.question(self, "Buổi học mới", 
@@ -1249,7 +1230,7 @@ class AttendanceMainWindow(QMainWindow):
             dialog = UserManagementDialog(self)
             dialog.exec_()
             
-            # Reload face recognizer after user management
+            
             if self.face_recognizer:
                 self.face_recognizer.load_known_faces()
                 
@@ -1262,7 +1243,7 @@ class AttendanceMainWindow(QMainWindow):
         try:
             dialog = AddUserDialog(self)
             if dialog.exec_() == QDialog.Accepted:
-                # Reload face recognizer after adding user
+               
                 if self.face_recognizer:
                     self.face_recognizer.load_known_faces()
                     
@@ -1287,13 +1268,12 @@ class AttendanceMainWindow(QMainWindow):
                 with open(filename, 'w', newline='', encoding='utf-8') as file:
                     writer = csv.writer(file)
                     
-                    # Write header
+                   
                     headers = []
                     for col in range(self.attendance_table.columnCount()):
                         headers.append(self.attendance_table.horizontalHeaderItem(col).text())
                     writer.writerow(headers)
                     
-                    # Write data
                     for row in range(self.attendance_table.rowCount()):
                         row_data = []
                         for col in range(self.attendance_table.columnCount()):
@@ -1323,7 +1303,7 @@ class AttendanceMainWindow(QMainWindow):
     def closeEvent(self, event):
         """Handle application close"""
         try:
-            # Stop camera if running
+            
             if self.camera_running:
                 self.stop_camera()
             
@@ -1334,16 +1314,15 @@ class AttendanceMainWindow(QMainWindow):
             print(f"Error during shutdown: {e}")
             event.accept()
 
-# Main execution
 if __name__ == "__main__":
     try:
         app = QApplication(sys.argv)
         
-        # Set application properties
+       
         app.setApplicationName("Face Attendance System")
         app.setOrganizationName("Your Organization")
         
-        # Create and show main window
+
         window = AttendanceMainWindow()
         window.show()
         

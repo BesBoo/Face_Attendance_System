@@ -87,3 +87,11 @@
 2025-08-09 19:09:12,034 - user - INFO - [AUTO_ATTENDANCE] BesBoo (123654) - 0.61
 2025-08-09 19:09:19,831 - user - INFO - [STOP_CAMERA] Camera stopped
 2025-08-09 19:09:26,654 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt
+2025-08-09 19:30:35,845 - system - INFO - [STARTUP] Bắt đầu khởi động ứng dụng
+2025-08-09 19:30:37,062 - system - INFO - [CAMERA] Tìm thấy 1 camera: [0]
+2025-08-09 19:30:37,064 - system - INFO - [DATABASE] Kết nối cơ sở dữ liệu thành công
+2025-08-09 19:30:37,064 - system - INFO - [STARTUP] Ứng dụng điểm danh đã khởi động
+2025-08-09 19:30:37,076 - system - INFO - [STARTUP] Ứng dụng đã khởi động thành công
+2025-08-09 19:31:51,912 - user - INFO - [START_CAMERA] Camera 0
+2025-08-09 19:31:58,150 - user - INFO - [STOP_CAMERA] Camera stopped
+2025-08-09 19:32:00,339 - system - INFO - [SHUTDOWN] Ứng dụng đã tắt

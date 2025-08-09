@@ -14,14 +14,12 @@ class MediaPipeFaceRecognition:
     """
     
     def __init__(self):
-        # Initialize MediaPipe Face Detection
         self.mp_face_detection = mp.solutions.face_detection
         self.mp_drawing = mp.solutions.drawing_utils
         self.face_detection = self.mp_face_detection.FaceDetection(
             model_selection=0, min_detection_confidence=0.5
         )
         
-        # Initialize MediaPipe Face Mesh for landmarks (optional for better encoding)
         self.mp_face_mesh = mp.solutions.face_mesh
         self.face_mesh = self.mp_face_mesh.FaceMesh(
             static_image_mode=True,
@@ -38,13 +36,13 @@ class MediaPipeFaceRecognition:
         Compatible with face_recognition.load_image_file()
         """
         try:
-            # Use PIL to handle various image formats
+            
             with Image.open(image_path) as pil_image:
-                # Convert to RGB if necessary
+                
                 if pil_image.mode != 'RGB':
                     pil_image = pil_image.convert('RGB')
                 
-                # Convert to numpy array
+                
                 image = np.array(pil_image)
                 
                 print(f"Successfully ! Loaded image: {image_path}, shape: {image.shape}")
@@ -52,7 +50,6 @@ class MediaPipeFaceRecognition:
                 
         except Exception as e:
             print(f"❌ Error loading image {image_path}: {e}")
-            # Fallback to OpenCV
             try:
                 image = cv2.imread(image_path)
                 if image is not None:
@@ -69,14 +66,11 @@ class MediaPipeFaceRecognition:
         Returns list of tuples (top, right, bottom, left) - compatible with face_recognition
         """
         try:
-            # Ensure image is in correct format
             if len(image.shape) == 3 and image.shape[2] == 3:
-                # RGB image - convert to BGR for MediaPipe
                 mp_image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
             else:
                 mp_image = image
             
-            # Detect faces
             results = self.face_detection.process(mp_image)
             
             locations = []
@@ -86,19 +80,18 @@ class MediaPipeFaceRecognition:
                 for detection in results.detections:
                     bbox = detection.location_data.relative_bounding_box
                     
-                    # Convert relative coordinates to absolute
                     left = int(bbox.xmin * width)
                     top = int(bbox.ymin * height)
                     right = int((bbox.xmin + bbox.width) * width)
                     bottom = int((bbox.ymin + bbox.height) * height)
                     
-                    # Ensure coordinates are within image bounds
+                    
                     left = max(0, left)
                     top = max(0, top)
                     right = min(width, right)
                     bottom = min(height, bottom)
                     
-                    # Return in face_recognition format: (top, right, bottom, left)
+                   
                     locations.append((top, right, bottom, left))
             
             return locations
@@ -113,7 +106,6 @@ class MediaPipeFaceRecognition:
         Returns list of 128-dimensional face encodings
         """
         try:
-            # If no face locations provided, detect them first
             if known_face_locations is None:
                 known_face_locations = self.face_locations(image)
             
@@ -122,13 +114,11 @@ class MediaPipeFaceRecognition:
             
             encodings = []
             
-            # Convert to BGR for MediaPipe if needed
             if len(image.shape) == 3 and image.shape[2] == 3:
                 mp_image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
             else:
                 mp_image = image
             
-            # Use Face Mesh for more detailed facial landmarks
             mesh_results = self.face_mesh.process(mp_image)
             
             if mesh_results.multi_face_landmarks:
@@ -136,11 +126,9 @@ class MediaPipeFaceRecognition:
                 
                 for i, face_landmarks in enumerate(mesh_results.multi_face_landmarks):
                     if i < len(known_face_locations):
-                        # Extract key landmarks for encoding
                         encoding = self._extract_face_encoding(face_landmarks, width, height)
                         encodings.append(encoding)
             else:
-                # Fallback: create basic encodings from face regions
                 for location in known_face_locations:
                     top, right, bottom, left = location
                     face_region = image[top:bottom, left:right]
@@ -159,7 +147,7 @@ class MediaPipeFaceRecognition:
         Creates a 128-dimensional feature vector
         """
         try:
-            # Key facial landmarks indices for MediaPipe Face Mesh
+
             key_points = [
                 # Nose tip, nose bridge
                 1, 2, 5, 4, 6, 19, 20, 94, 125, 141, 235, 236, 3, 51, 48, 115, 131, 134, 102, 49, 220, 305, 307, 375, 321, 308, 324, 318,
@@ -171,7 +159,6 @@ class MediaPipeFaceRecognition:
                 61, 84, 17, 314, 405, 320, 307, 375, 321, 308, 324, 318, 78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308, 324, 318
             ]
             
-            # Extract coordinates for key points
             features = []
             for point_idx in key_points:
                 if point_idx < len(landmarks.landmark):
@@ -181,13 +168,11 @@ class MediaPipeFaceRecognition:
                     z = landmark.z if hasattr(landmark, 'z') else 0
                     features.extend([x, y, z])
             
-            # Pad or truncate to exactly 128 dimensions
             if len(features) > 128:
                 features = features[:128]
             elif len(features) < 128:
                 features.extend([0.0] * (128 - len(features)))
             
-            # Normalize features
             features = np.array(features, dtype=np.float64)
             if np.linalg.norm(features) > 0:
                 features = features / np.linalg.norm(features)
@@ -206,38 +191,33 @@ class MediaPipeFaceRecognition:
             if face_region.size == 0:
                 return np.zeros(128, dtype=np.float64)
             
-            # Resize face to standard size
             face_resized = cv2.resize(face_region, (64, 64))
             
-            # Convert to grayscale if needed
             if len(face_resized.shape) == 3:
                 face_gray = cv2.cvtColor(face_resized, cv2.COLOR_RGB2GRAY)
             else:
                 face_gray = face_resized
             
-            # Extract features using simple methods
             # 1. Histogram features
             hist = cv2.calcHist([face_gray], [0], None, [32], [0, 256])
             hist_features = hist.flatten()
             
-            # 2. LBP-like features (simplified)
+            # 2. LBP-like features 
             lbp_features = self._simple_lbp(face_gray)
             
             # 3. Edge features
             edges = cv2.Canny(face_gray, 100, 200)
-            edge_features = np.sum(edges, axis=0)[:32]  # Take first 32
+            edge_features = np.sum(edges, axis=0)[:32] 
             
-            # Combine features
+
             all_features = np.concatenate([hist_features, lbp_features, edge_features])
             
-            # Pad or truncate to 128 dimensions
             if len(all_features) > 128:
                 all_features = all_features[:128]
             elif len(all_features) < 128:
                 padding = np.zeros(128 - len(all_features))
                 all_features = np.concatenate([all_features, padding])
             
-            # Normalize
             features = all_features.astype(np.float64)
             if np.linalg.norm(features) > 0:
                 features = features / np.linalg.norm(features)
@@ -261,7 +241,6 @@ class MediaPipeFaceRecognition:
                     center = image[i, j]
                     code = 0
                     
-                    # Check 8 neighboring pixels
                     neighbors = [
                         image[i-1, j-1], image[i-1, j], image[i-1, j+1],
                         image[i, j+1], image[i+1, j+1], image[i+1, j],
@@ -274,7 +253,6 @@ class MediaPipeFaceRecognition:
                     
                     lbp[i, j] = code
             
-            # Create histogram
             hist, _ = np.histogram(lbp.ravel(), bins=32, range=[0, 256])
             return hist.astype(np.float64)
             
@@ -293,20 +271,17 @@ class MediaPipeFaceRecognition:
             
             distances = []
             for known_encoding in known_encodings:
-                # Calculate cosine similarity
                 dot_product = np.dot(known_encoding, face_encoding)
                 norm_product = np.linalg.norm(known_encoding) * np.linalg.norm(face_encoding)
                 
                 if norm_product == 0:
                     distance = 1.0
                 else:
-                    # Convert cosine similarity to distance
                     similarity = dot_product / norm_product
                     distance = 1.0 - similarity
                 
                 distances.append(distance)
             
-            # Return matches based on tolerance
             return [distance <= tolerance for distance in distances]
             
         except Exception as e:
@@ -323,7 +298,6 @@ class MediaPipeFaceRecognition:
             
             distances = []
             for known_encoding in known_encodings:
-                # Calculate cosine distance
                 dot_product = np.dot(known_encoding, face_encoding)
                 norm_product = np.linalg.norm(known_encoding) * np.linalg.norm(face_encoding)
                 

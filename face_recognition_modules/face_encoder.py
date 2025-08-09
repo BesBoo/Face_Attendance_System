@@ -8,14 +8,13 @@ from datetime import datetime
 class FaceEncoder:
     def __init__(self, encodings_file_path: str = "data/encodings.pkl"):
         self.encodings_file_path = encodings_file_path
-        self.known_encodings = {}  # {user_id: encoding}
-        self.user_names = {}       # {user_id: name}
-        self.user_student_ids = {} # {user_id: student_id}
-        
-        # Tạo thư mục data nếu chưa tồn tại
+        self.known_encodings = {}  
+        self.user_names = {}       
+        self.user_student_ids = {} 
+
         os.makedirs(os.path.dirname(encodings_file_path), exist_ok=True)
         
-        # Load encodings hiện có
+
         self.load_encodings()
     
     def add_encoding(self, user_id: int, name: str, student_id: str, encoding: np.ndarray) -> bool:
@@ -27,7 +26,6 @@ class FaceEncoder:
             self.user_names[user_id] = name
             self.user_student_ids[user_id] = student_id
             
-            # Lưu vào file
             success = self.save_encodings()
             
             if success:
@@ -155,13 +153,13 @@ class FaceEncoder:
             with open(self.encodings_file_path, 'rb') as f:
                 data = pickle.load(f)
             
-            # Kiểm tra định dạng data
+
             if isinstance(data, dict):
                 self.known_encodings = data.get('encodings', {})
                 self.user_names = data.get('names', {})
                 self.user_student_ids = data.get('student_ids', {})
             else:
-                # Format cũ, chỉ có encodings
+
                 logging.warning("Định dạng file encodings cũ, đang chuyển đổi...")
                 self.known_encodings = data if isinstance(data, dict) else {}
                 self.user_names = {}
@@ -172,7 +170,7 @@ class FaceEncoder:
             
         except Exception as e:
             logging.error(f"Lỗi load encodings: {e}")
-            # Khởi tạo rỗng nếu lỗi
+ 
             self.known_encodings = {}
             self.user_names = {}
             self.user_student_ids = {}
@@ -187,7 +185,7 @@ class FaceEncoder:
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 backup_path = f"data/encodings_backup_{timestamp}.pkl"
             
-            # Tạo thư mục backup nếu cần
+
             os.makedirs(os.path.dirname(backup_path), exist_ok=True)
             
             data = {
@@ -224,7 +222,6 @@ class FaceEncoder:
             self.user_names = data.get('names', {})
             self.user_student_ids = data.get('student_ids', {})
             
-            # Lưu lại vào file chính
             success = self.save_encodings()
             
             if success:
@@ -258,7 +255,6 @@ class FaceEncoder:
         
         try:
             for user_id, encoding in self.known_encodings.items():
-                # Kiểm tra encoding có hợp lệ không
                 if not isinstance(encoding, np.ndarray):
                     errors.append(f"User ID {user_id}: Encoding không phải numpy array")
                 elif encoding.shape != (128,):
@@ -268,7 +264,6 @@ class FaceEncoder:
                 elif np.isinf(encoding).any():
                     errors.append(f"User ID {user_id}: Encoding chứa giá trị vô cực")
                 
-                # Kiểm tra thông tin user
                 if user_id not in self.user_names:
                     errors.append(f"User ID {user_id}: Thiếu tên")
                 if user_id not in self.user_student_ids:

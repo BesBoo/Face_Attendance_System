@@ -26,7 +26,6 @@ class FaceRecognizer:
     def load_known_faces(self):
         """Load known faces from saved data"""
         try:
-            # Try to load from both JSON file and image directory
             self._load_from_json()
             self._load_from_images()
             
@@ -65,7 +64,7 @@ class FaceRecognizer:
     def update_face_encoding(self, user_id: int, new_encoding: np.ndarray) -> bool:
         """Update existing face encoding"""
         try:
-            # Find user index
+     
             user_index = None
             for i, uid in enumerate(self.known_face_ids):
                 if uid == user_id:
@@ -87,13 +86,13 @@ class FaceRecognizer:
     def remove_face_encoding(self, user_id: int) -> bool:
         """Remove face encoding for a user"""
         try:
-            # Find and remove user
+          
             indices_to_remove = []
             for i, uid in enumerate(self.known_face_ids):
                 if uid == user_id:
                     indices_to_remove.append(i)
             
-            # Remove in reverse order to maintain indices
+            
             for i in reversed(indices_to_remove):
                 del self.known_face_encodings[i]
                 del self.known_face_names[i]
@@ -125,13 +124,13 @@ class FaceRecognizer:
         try:
             print("Retraining face recognition model...")
             
-            # Clear current data
+           
             self.known_face_encodings.clear()
             self.known_face_names.clear()
             self.known_face_ids.clear()
             self.known_face_student_ids.clear()
             
-            # Reload all faces
+            
             self.load_known_faces()
             
             print(f"Model retrained with {len(self.known_face_encodings)} faces")
@@ -156,7 +155,6 @@ class FaceRecognizer:
             if len(face_locations) > 1:
                 return False, "Tìm thấy nhiều khuôn mặt, vui lòng chỉ có 1 người"
             
-            # Check face size
             top, right, bottom, left = face_locations[0]
             face_width = right - left
             face_height = bottom - top
@@ -164,7 +162,6 @@ class FaceRecognizer:
             if face_width < min_face_size or face_height < min_face_size:
                 return False, f"Khuôn mặt quá nhỏ (tối thiểu {min_face_size}x{min_face_size}px)"
             
-            # Check face position (should not be too close to edges)
             frame_height, frame_width = frame.shape[:2]
             margin = 20
             
@@ -194,18 +191,17 @@ class FaceRecognizer:
                 if not os.path.exists(image_path):
                     continue
                 
-                # Load test image
+                
                 test_frame = cv2.imread(image_path)
                 if test_frame is None:
                     continue
                 
-                # Recognize faces
+               
                 recognition_results = self.recognize_faces(test_frame)
                 
                 results['total_tests'] += 1
                 
-                # This is a simplified benchmark - you would need ground truth labels
-                # for proper evaluation
+                
                 if recognition_results:
                     for result in recognition_results:
                         if result['name'] != 'Unknown':
@@ -251,7 +247,7 @@ class FaceRecognizer:
         users_file = "data/users.json"
         users_data = {}
         
-        # Load user information
+       
         if os.path.exists(users_file):
             try:
                 with open(users_file, 'r', encoding='utf-8') as f:
@@ -261,7 +257,6 @@ class FaceRecognizer:
             except Exception as e:
                 print(f"Error loading users file: {e}")
         
-        # Process each user directory
         for user_dir in os.listdir(base_dir):
             user_path = os.path.join(base_dir, user_dir)
             if not os.path.isdir(user_path):
@@ -272,20 +267,17 @@ class FaceRecognizer:
             user_id = user_info.get('id', 0)
             student_id = user_info.get('student_id', '')
             
-            # Process images in user directory
             encodings_for_user = []
             for image_file in os.listdir(user_path):
                 if image_file.lower().endswith(('.jpg', '.jpeg', '.png')):
                     image_path = os.path.join(user_path, image_file)
                     
-                    # Extract face encoding
                     encoding = self.face_detector.extract_face_from_image(image_path)
                     if encoding is not None:
                         encodings_for_user.append(encoding)
             
-            # Add user if we got at least one encoding
             if encodings_for_user:
-                # Use average encoding if multiple images
+             
                 if len(encodings_for_user) > 1:
                     avg_encoding = np.mean(encodings_for_user, axis=0)
                 else:
@@ -301,13 +293,13 @@ class FaceRecognizer:
     def save_face_encoding(self, name: str, user_id: int, student_id: str, encoding: np.ndarray):
         """Save a new face encoding"""
         try:
-            # Add to current session
+           
             self.known_face_encodings.append(encoding)
             self.known_face_names.append(name)
             self.known_face_ids.append(user_id)
             self.known_face_student_ids.append(student_id)
             
-            # Save to JSON file
+            
             self._save_to_json()
             
             print(f"Successfully ! Saved face encoding for: {name}")
@@ -342,13 +334,13 @@ class FaceRecognizer:
         results = []
         
         try:
-            # Detect faces and get encodings
+            
             face_locations, face_encodings = self.face_detector.detect_and_encode(frame)
             
             if not face_locations:
                 return results
             
-            # Match faces with known faces
+            
             for face_encoding, face_location in zip(face_encodings, face_locations):
                 matches = face_recognition.compare_faces(
                     self.known_face_encodings, 
@@ -361,7 +353,7 @@ class FaceRecognizer:
                 student_id = "Unknown"
                 confidence = 0.0
                 
-                # Find the best match
+              
                 if True in matches:
                     face_distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
                     best_match_index = np.argmin(face_distances)
@@ -371,7 +363,7 @@ class FaceRecognizer:
                         user_id = self.known_face_ids[best_match_index]
                         student_id = self.known_face_student_ids[best_match_index]
                         
-                        # Calculate confidence (inverse of distance)
+                       
                         distance = face_distances[best_match_index]
                         confidence = max(0.0, 1.0 - distance)
                 
@@ -380,7 +372,7 @@ class FaceRecognizer:
                     'user_id': user_id,
                     'student_id': student_id,
                     'confidence': confidence,
-                    'location': face_location  # (top, right, bottom, left)
+                    'location': face_location  
                 }
                 results.append(result)
             
