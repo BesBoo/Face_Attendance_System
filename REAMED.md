@@ -29,9 +29,9 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
 ### Demo Quá Trình Điểm Danh
 
 1. **Khởi động camera và phát hiện khuôn mặt:**
-   ```
+
     Camera ON →  Face Detection →  Recognition → Auto Attendance
-   ```
+
 
 2. **Kết quả nhận dạng:**
 
@@ -40,9 +40,9 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
 
 
 3. **Cập nhật danh sách tự động:**
-   ```
+
    123654 - BesBoo - 18:08:53 - Có mặt
-   ```
+
 
 ##  Thêm Người Dùng Mới
 
@@ -79,7 +79,7 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
 ### 2. Cài Đặt Dependencies
 
 ```bash
-# Clone repository
+
 git clone https://github.com/your-username/face-attendance-system.git
 cd face-attendance-system
 
@@ -101,42 +101,42 @@ pip install -r requirements.txt
 face-attendance-system/
 ├── main.py                     # File chính khởi động app
 ├── requirements.txt            # Dependencies
-├── README.md                  # Tài liệu này
-├── LICENSE                    # Giấy phép
+├── README.md                  
+├── LICENSE                    
 │
-├── face_recognition_modules/  # Modules nhận dạng khuôn mặt
+├── face_recognition_modules/ 
 │   ├── __init__.py
-│   ├── face_detector.py       # Phát hiện khuôn mặt
-│   ├── face_encoder.py        # Mã hóa khuôn mặt
-│   └── recognizer.py          # Engine nhận dạng
+│   ├── face_detector.py     
+│   ├── face_encoder.py        
+│   └── recognizer.py         
 │
 ├── gui/                       # Giao diện người dùng
 │   ├── __init__.py
-│   └── main_window.py         # Cửa sổ chính
+│   └── main_window.py       
 │
-├── database/                  # Quản lý cơ sở dữ liệu
+├── database/                
 │   ├── __init__.py
 │   └── db.py
 │
-├── utils/                     # Tiện ích
+├── utils/                    
 │   ├── __init__.py
 │   ├── logger.py
 │   └── helpers.py
 │
-└── data/                      # Dữ liệu ứng dụng
-    ├── images/               # Ảnh training users
+└── data/                      
+    ├── images/             
     │   ├── user_1/
     │   ├── user_2/
     │   └── ...
-    ├── users.json            # Thông tin users
-    ├── encodings.pkl         # Face encodings
-    └── logs/                 # Log files
+    ├── users.json            
+    ├── encodings.pkl         
+    └── logs/                
 ```
 
 ### 4. Chạy Ứng Dụng
 
 ```bash
-# Chạy ứng dụng chính
+
 python main.py
 
 # Hoặc chạy trực tiếp GUI
@@ -147,22 +147,22 @@ python -m gui.main_window
 
 ### Cài Đặt Camera
 ```python
-# Trong file config hoặc giao diện
+
 CAMERA_SETTINGS = {
-    'default_camera': 0,        # ID camera mặc định
-    'resolution': (640, 480),   # Độ phân giải
-    'fps': 30,                  # Frames per second
-    'auto_exposure': True       # Tự động điều chỉnh exposure
+    'default_camera': 0,        
+    'resolution': (640, 480),   
+    'fps': 30,                  
+    'auto_exposure': True      
 }
 ```
 
 ### Cài Đặt Nhận Dạng
 ```python
 RECOGNITION_SETTINGS = {
-    'tolerance': 0.6,           # Độ nhạy nhận dạng (0.1-0.9)
-    'model': 'hog',            # Mô hình: 'hog' hoặc 'cnn'
-    'auto_attendance': True,    # Tự động điểm danh
-    'confidence_threshold': 0.5 # Ngưỡng tin cậy tối thiểu
+    'tolerance': 0.6,         
+    'model': 'hog',            
+    'auto_attendance': True,   
+    'confidence_threshold': 0.5 
 }
 ```
 
@@ -180,9 +180,9 @@ export_attendance_excel_with_charts(data, filename)
 ### 2. API Integration
 ```python
 # REST API endpoints
-POST /api/users          # Thêm user mới
-GET  /api/attendance     # Lấy danh sách điểm danh  
-POST /api/recognition    # Nhận dạng từ ảnh upload
+POST /api/users         
+GET  /api/attendance     
+POST /api/recognition   
 ```
 
 ### 3. Backup & Recovery
@@ -268,4 +268,4 @@ Dự án này được phát hành dưới giấy phép MIT License. Xem file [L
 
  **Nếu dự án này hữu ích, hãy cho tôi một ⭐** 
 
-Made with ⭐ by [Your Name]
+
