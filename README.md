@@ -233,7 +233,7 @@ pip install face_recognition[gpu]
 
 ### Version 1.0.0 (2025-07-15)
 - ✅ Phiên bản đầu tiên
-- ✅ Nhận dạng khuôn mặt cơ bản
+- ✅ Nhận dạng khuôn mặt, danh tính cơ bản
 - ✅ Giao diện PyQt5
 - ✅ Quản lý users
 - ✅ Xuất CSV
