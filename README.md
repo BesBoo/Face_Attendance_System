@@ -80,7 +80,7 @@ Hệ thống điểm danh thông minh sử dụng công nghệ nhận dạng khu
 
 ```bash
 
-git clone https://github.com/your-username/face-attendance-system.git
+git clone [https://github.com/your-username/face-attendance-system.git](https://github.com/BesBoo/Face_Attendance_System.git)
 cd face-attendance-system
 
 # Tạo virtual environment
